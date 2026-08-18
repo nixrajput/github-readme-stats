@@ -1,4 +1,6 @@
-name: Cleanup closed pull requests cache
+name: PR cache cleanup
+
+# Frees Actions cache storage when a PR closes.
 on:
   pull_request:
     types:

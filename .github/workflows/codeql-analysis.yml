@@ -1,4 +1,8 @@
-name: "Static code analysis workflow (CodeQL)"
+name: CodeQL
+
+# Static analysis of the JavaScript service code. Kept from the upstream pipeline
+# because it catches a class of defect Scorecard and dependency-review do not:
+# those check supply-chain posture, this reads our own code.
 
 on:
   push:

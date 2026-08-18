@@ -1,4 +1,7 @@
-name: Generate Theme Readme
+name: Theme docs
+
+# Regenerates themes/README.md when a theme changes.
+# Requires the PERSONAL_TOKEN and GH_REPO secrets to be set on this repo.
 on:
   push:
     branches:

@@ -1,4 +1,6 @@
-name: Test Deployment
+name: E2E
+
+# End-to-end tests against a running instance. Advisory on PRs; the gate is ci.yml.
 on:
   # Temporarily disabled automatic triggers; manual-only for now.
   workflow_dispatch:

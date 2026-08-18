@@ -1,60 +1,84 @@
-name: Bug report
-description: Create a report to help us improve.
-labels:
-  - "bug"
+name: Bug Report
+description: File a bug report for github-readme-stats
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: ["nixrajput"]
 body:
   - type: markdown
     attributes:
       value: |
-        :warning: PLEASE FIRST READ THE FAQ [(#1770)](https://github.com/nixrajput/github-readme-stats/discussions/1770) AND COMMON ERROR CODES [(#1772)](https://github.com/nixrajput/github-readme-stats/issues/1772)!!!
-  - type: textarea
+        Thanks for taking the time to fill out this bug report.
+        Before submitting, please check the [existing issues](https://github.com/nixrajput/github-readme-stats/issues) to avoid duplicates.
+
+        This repository hosts our own deployment of the service. If the card renders
+        but the numbers look wrong, check the health of the instance first - an expired
+        token often surfaces as a misleading error on the card itself.
+
+  - type: dropdown
+    id: area
     attributes:
-      label: Describe the bug
-      description: A clear and concise description of what the bug is.
+      label: Affected area
+      description: Which part of github-readme-stats is affected?
+      multiple: false
+      options:
+        - Stats card
+        - Top languages card
+        - Repo / gist pin card
+        - WakaTime card
+        - Themes and colours
+        - Query parameters
+        - Deployment / hosting
+        - GitHub API, PAT or rate limits
+        - Other
     validations:
       required: true
-  - type: textarea
+
+  - type: input
+    id: card-url
     attributes:
-      label: Expected behavior
+      label: Card URL
+      description: The full URL that reproduces the problem.
+      placeholder: "https://github-readme-stats-nixlab.vercel.app/api?username=nixrajput&show_icons=true"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
       description:
-        A clear and concise description of what you expected to happen.
+        Describe the bug clearly. What did you see, and what did you expect?
+      placeholder: "Expected: ... Actual: ..."
+    validations:
+      required: true
+
   - type: textarea
+    id: reproduction
     attributes:
-      label: Screenshots / Live demo link
-      description: If applicable, add screenshots to help explain your problem.
-      placeholder: Paste the github-readme-stats link as markdown image
+      label: Steps to reproduce
+      description: Minimal steps a maintainer can follow.
+      placeholder: |
+        1. Open the card URL above
+        2. ...
+    validations:
+      required: true
+
   - type: textarea
+    id: rendered
     attributes:
-      label: Additional context
-      description: Add any other context about the problem here.
-  - type: markdown
+      label: Rendered output
+      description: Paste a screenshot of the card, or the raw SVG response.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
     attributes:
-      value: |
-        ---
-        ### FAQ (Snippet)
-
-        Below are some questions that are found in the FAQ. The full FAQ can be found in [#1770](https://github.com/nixrajput/github-readme-stats/discussions/1770).
-
-        #### Q: My card displays an error
-
-        **Ans:** First, check the common error codes (i.e. https://github.com/nixrajput/github-readme-stats/issues/1772) and existing issues before creating a new one. 
-
-        #### Q: How to hide jupyter Notebook?
-
-        **Ans:** `&hide=jupyter%20notebook`.
-
-        #### Q: I could not figure out how to deploy on my own vercel instance
-
-        **Ans:** Please check:
-          - Docs: https://github.com/nixrajput/github-readme-stats/#deploy-on-your-own-vercel-instance
-          - YT tutorial by codeSTACKr: https://www.youtube.com/watch?v=n6d4KHSKqGk&feature=youtu.be&t=107
-
-        #### Q: Language Card is incorrect
-
-        **Ans:** Please read these issues/comments before opening any issues regarding language card stats:
-          - https://github.com/nixrajput/github-readme-stats/issues/136#issuecomment-665164174
-          - https://github.com/nixrajput/github-readme-stats/issues/136#issuecomment-665172181
-
-        #### Q: How to count private stats?
-
-        **Ans:** We can only count private commits & we cannot access any other private info of any users, so it's impossible. The only way is to deploy on your own instance & use your own PAT (Personal Access Token).
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label:
+            This is about our deployment, not a request to change upstream
+            behaviour.
+          required: true

@@ -1,4 +1,6 @@
-name: Update supported languages
+name: Update languages
+
+# Scheduled refresh of the language colour data, raised as a PR for review.
 on:
   schedule:
     #        ┌───────────── minute (0 - 59)
