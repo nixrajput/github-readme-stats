@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 32 32">
+  <title>github-readme-stats</title>
+  <rect width="32" height="32" rx="7" fill="#141118" />
+  <!-- Three bars rising left to right: the card summarises a profile, so the mark reads as
+       a summary rather than a graph. Violet marks the current column, amber the one still
+       growing. No axes or gridlines, which turn to noise below 24px. -->
+  <rect x="7" y="18" width="4.6" height="7" rx="2.3" fill="#6b6478" />
+  <rect x="13.7" y="13" width="4.6" height="12" rx="2.3" fill="#9b8cff" />
+  <rect x="20.4" y="8" width="4.6" height="17" rx="2.3" fill="#f0a868" />
+</svg>
