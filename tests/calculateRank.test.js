@@ -2,6 +2,12 @@ import { describe, expect, it } from "@jest/globals";
 import "@testing-library/jest-dom";
 import { calculateRank } from "../src/calculateRank.js";
 
+// `2 ** -x` can differ in the last bit across Node versions.
+const expectRank = (rank, level, percentile) => {
+  expect(rank.level).toBe(level);
+  expect(rank.percentile).toBeCloseTo(percentile, 10);
+};
+
 describe("Test calculateRank", () => {
   it("new user gets C rank", () => {
     expect(
@@ -19,7 +25,7 @@ describe("Test calculateRank", () => {
   });
 
   it("beginner user gets B- rank", () => {
-    expect(
+    expectRank(
       calculateRank({
         all_commits: false,
         commits: 125,
@@ -30,7 +36,9 @@ describe("Test calculateRank", () => {
         stars: 25,
         followers: 5,
       }),
-    ).toStrictEqual({ level: "B-", percentile: 65.02918514848255 });
+      "B-",
+      65.02918514848255,
+    );
   });
 
   it("median user gets B+ rank", () => {
@@ -64,7 +72,7 @@ describe("Test calculateRank", () => {
   });
 
   it("advanced user gets A rank", () => {
-    expect(
+    expectRank(
       calculateRank({
         all_commits: false,
         commits: 500,
@@ -75,11 +83,13 @@ describe("Test calculateRank", () => {
         stars: 200,
         followers: 40,
       }),
-    ).toStrictEqual({ level: "A", percentile: 20.841471354166664 });
+      "A",
+      20.841471354166664,
+    );
   });
 
   it("expert user gets A+ rank", () => {
-    expect(
+    expectRank(
       calculateRank({
         all_commits: false,
         commits: 1000,
@@ -90,11 +100,13 @@ describe("Test calculateRank", () => {
         stars: 800,
         followers: 160,
       }),
-    ).toStrictEqual({ level: "A+", percentile: 5.575988339442828 });
+      "A+",
+      5.575988339442828,
+    );
   });
 
   it("sindresorhus gets S rank", () => {
-    expect(
+    expectRank(
       calculateRank({
         all_commits: false,
         commits: 1300,
@@ -105,6 +117,8 @@ describe("Test calculateRank", () => {
         stars: 600000,
         followers: 50000,
       }),
-    ).toStrictEqual({ level: "S", percentile: 0.4578556547153667 });
+      "S",
+      0.4578556547153667,
+    );
   });
 });
