@@ -1,39 +1,34 @@
-# GitHub Readme Stats Security Policies and Procedures <!-- omit in toc -->
+# Security Policy
 
-This document outlines security procedures and general policies for the
-GitHub Readme Stats project.
+## Supported versions
 
-- [Reporting a Vulnerability](#reporting-a-vulnerability)
-- [Disclosure Policy](#disclosure-policy)
+This repository has no releases. Only the `master` branch, which Vercel deploys to github-readme-stats.nixrajput.com, receives security fixes.
 
-## Reporting a Vulnerability 
+| Version             | Supported |
+| ------------------- | --------- |
+| `master` (deployed) | Yes       |
+| Older commits       | No        |
 
-The GitHub Readme Stats team and community take all security vulnerabilities
-seriously. Thank you for improving the security of our open source 
-software. We appreciate your efforts and responsible disclosure and will
-make every effort to acknowledge your contributions.
+## Reporting a vulnerability
 
-Report security vulnerabilities by emailing the GitHub Readme Stats team at:
+**Please do not open a public GitHub issue for security vulnerabilities.**
 
-```
-nkr.nikhil.nkr@gmail.com
-```
+Use GitHub's private vulnerability reporting:
 
-The lead maintainer will acknowledge your email within 24 hours, and will
-send a more detailed response within 48 hours indicating the next steps in 
-handling your report. After the initial reply to your report, the security
-team will endeavor to keep you informed of the progress towards a fix and
-full announcement, and may ask for additional information or guidance.
+[https://github.com/nixrajput/github-readme-stats/security/advisories/new](https://github.com/nixrajput/github-readme-stats/security/advisories/new)
 
-Report security vulnerabilities in third-party modules to the person or 
-team maintaining the module.
+Include:
 
-## Disclosure Policy
+- A clear description of the issue and its potential impact.
+- Steps to reproduce or a proof-of-concept.
+- Any suggested remediation if you have one.
 
-When the security team receives a security bug report, they will assign it
-to a primary handler. This person will coordinate the fix and release
-process, involving the following steps:
+## Response expectations
 
-  * Confirm the problem.
-  * Audit code to find any potential similar problems.
-  * Prepare fixes and release them as fast as possible.
+| Milestone          | Target                           |
+| ------------------ | -------------------------------- |
+| Acknowledgement    | Within 72 hours                  |
+| Initial assessment | Within 7 days                    |
+| Fix or mitigation  | Within 30 days for high-severity |
+
+You will be credited in the pull request that fixes the issue unless you prefer to remain anonymous. Thank you for helping keep this project secure.
