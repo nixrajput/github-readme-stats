@@ -1,5 +1,13 @@
 .vercel
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.sqlite
+*.sqlite3
+*.db
 node_modules
 *.lock
 .idea/
