@@ -653,7 +653,7 @@ You can customize the appearance and behavior of the WakaTime stats card using t
 | `custom_title` | Sets a custom title for the card. | string | `WakaTime Stats` |
 | `layout` | Switches between two available layouts `default` & `compact`. | enum | `default` |
 | `langs_count` | Limits the number of languages on the card, defaults to all reported languages. | integer | `null` |
-| `api_domain` | Sets a custom API domain for the card, e.g. to use services like [Hakatime](https://github.com/mujx/hakatime) or [Wakapi](https://github.com/muety/wakapi) | string | `wakatime.com` |
+| `api_domain` | Sets the API domain for the card. Accepts `wakatime.com` or `wakapi.dev` (the public [Wakapi](https://github.com/muety/wakapi) server). To use a self-hosted server such as [Hakatime](https://github.com/mujx/hakatime), deploy your own instance and add its domain to `WAKATIME_API_DOMAINS` in `src/fetchers/wakatime.js`. | string | `wakatime.com` |
 | `display_format` | Sets the WakaTime stats display format. Choose `time` to display time-based stats or `percent` to show percentages. | enum | `time` |
 | `disable_animations` | Disables all animations in the card. | boolean | `false` |
 
