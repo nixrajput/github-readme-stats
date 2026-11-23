@@ -124,6 +124,15 @@ describe("Test /api/status/up", () => {
     expect(res.send).toHaveBeenCalledWith(shields_up);
   });
 
+  it("should use the first value of a repeated type param", async () => {
+    mock.onPost("https://api.github.com/graphql").replyOnce(200, successData);
+
+    const { req, res } = faker({ type: ["shields", "json"] }, {});
+    await up(req, res);
+
+    expect(res.send).toHaveBeenCalledWith(shields_up);
+  });
+
   it("should return DOWN shields.io config if all PATs are rate limited and type='shields'", async () => {
     mock.onPost("https://api.github.com/graphql").reply(200, rate_limit_error);
 

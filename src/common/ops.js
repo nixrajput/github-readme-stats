@@ -37,6 +37,20 @@ const parseArray = (str) => {
 };
 
 /**
+ * Keep the first value of each repeated query parameter.
+ *
+ * @param {Record<string, string | string[]>} query The parsed query string.
+ * @returns {Record<string, string>} The query with one value per parameter.
+ */
+const firstQueryValues = (query) =>
+  Object.fromEntries(
+    Object.entries(query).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value[0] : value,
+    ]),
+  );
+
+/**
  * Clamp the given number between the given range.
  *
  * @param {number} number The number to clamp.
@@ -116,6 +130,7 @@ const dateDiff = (d1, d2) => {
 export {
   parseBoolean,
   parseArray,
+  firstQueryValues,
   clampValue,
   lowercaseTrim,
   chunkArray,

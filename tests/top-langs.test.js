@@ -154,7 +154,7 @@ describe("Test /api/top-langs", () => {
     const req = {
       query: {
         username: "anuraghazra",
-        layout: ["pie"],
+        layout: "not-a-layout",
       },
     };
     const res = {

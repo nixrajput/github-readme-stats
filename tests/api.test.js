@@ -146,6 +146,27 @@ describe("Test /api/", () => {
     }
   });
 
+  it("should render the card for an unknown theme and repeated params", async () => {
+    const { req, res } = faker(
+      {
+        theme: "not-a-theme",
+        title_color: ["f00", "0f0"],
+        locale: ["en", "de"],
+      },
+      data_stats,
+    );
+
+    await api(req, res);
+
+    expect(res.send).toHaveBeenCalledWith(
+      renderStatsCard(stats, {
+        theme: "not-a-theme",
+        title_color: "f00",
+        locale: "en",
+      }),
+    );
+  });
+
   it("should render error card on error", async () => {
     const { req, res } = faker({}, error);
 

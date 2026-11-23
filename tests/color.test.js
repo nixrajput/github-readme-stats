@@ -84,4 +84,11 @@ describe("Test color.js", () => {
       getCardColors({ bg_color: "-45.5,fff,000", theme: "default" }).bgColor,
     ).toStrictEqual(["-45.5", "fff", "000"]);
   });
+
+  it("getCardColors: should fall back to the default theme for an unknown theme", () => {
+    const defaults = getCardColors({ theme: "default" });
+    for (const theme of ["not-a-theme", "__proto__", "constructor"]) {
+      expect(getCardColors({ theme })).toStrictEqual(defaults);
+    }
+  });
 });
