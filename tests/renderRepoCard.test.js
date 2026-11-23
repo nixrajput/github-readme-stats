@@ -75,7 +75,7 @@ describe("Test renderRepoCard", () => {
 
     expect(
       document.getElementsByClassName("description")[0].children[1].textContent,
-    ).toBe("English-language pangram—a sentence that contains all");
+    ).toBe("English-language pangram\u2014a sentence that contains all of");
 
     // Should not trim
     document.body.innerHTML = renderRepoCard({
@@ -367,5 +367,29 @@ describe("Test renderRepoCard", () => {
       },
     );
     expect(document.querySelector("svg")).toHaveAttribute("height", "120");
+  });
+
+  it("should escape the primary language from the API", () => {
+    const payload = '"/><script>alert(1)</script>';
+    const card = renderRepoCard({
+      ...data_repo.repository,
+      primaryLanguage: { color: payload, id: "x", name: payload },
+    });
+    expect(card).not.toContain("<script");
+    expect(card).toContain("&#34;/&#62;&#60;script&#62;");
+  });
+
+  it("should escape the title and description only once", () => {
+    document.body.innerHTML = renderRepoCard({
+      ...data_repo.repository,
+      name: "Tom & Jerry",
+      description: `Tom & Jerry <3 "quoted" it's`,
+    });
+    expect(document.getElementsByClassName("header")[0].textContent).toBe(
+      "Tom & Jerry",
+    );
+    expect(document.getElementsByClassName("description")[0]).toHaveTextContent(
+      `Tom & Jerry <3 "quoted" it's`,
+    );
   });
 });

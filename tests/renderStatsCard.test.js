@@ -469,4 +469,14 @@ describe("Test renderStatsCard", () => {
       ),
     );
   });
+
+  it("should escape the name only once", () => {
+    document.body.innerHTML = renderStatsCard({
+      ...stats,
+      name: "Tom & <Jerry>",
+    });
+    expect(document.getElementsByClassName("header")[0].textContent).toBe(
+      "Tom & <Jerry>'s GitHub Stats",
+    );
+  });
 });

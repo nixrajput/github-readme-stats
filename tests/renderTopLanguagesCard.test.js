@@ -883,4 +883,30 @@ describe("Test renderTopLanguages", () => {
       "css 100.0 B",
     );
   });
+
+  it("should escape language names and colors from the API", () => {
+    const payload = '"/><script>alert(1)</script>';
+    const unsafeLangs = {
+      [payload]: { color: payload, name: payload, size: 200 },
+      css: { color: "#ff0", name: "css", size: 100 },
+    };
+    for (const layout of [
+      undefined,
+      "compact",
+      "donut",
+      "donut-vertical",
+      "pie",
+    ]) {
+      // @ts-ignore
+      const card = renderTopLanguages(unsafeLangs, { layout });
+      expect(card).not.toContain("<script");
+      expect(card).toContain("&#34;/&#62;&#60;script&#62;");
+    }
+    // @ts-ignore
+    const card = renderTopLanguages(
+      { [payload]: unsafeLangs[payload] },
+      { layout: "pie" },
+    );
+    expect(card).not.toContain("<script");
+  });
 });
