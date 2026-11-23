@@ -12,7 +12,11 @@ import {
   MissingParamError,
   retrieveSecondaryMessage,
 } from "../src/common/error.js";
-import { parseArray, parseBoolean } from "../src/common/ops.js";
+import {
+  firstQueryValues,
+  parseArray,
+  parseBoolean,
+} from "../src/common/ops.js";
 import { renderError } from "../src/common/render.js";
 import { fetchStats } from "../src/fetchers/stats.js";
 import { isLocaleAvailable } from "../src/translations.js";
@@ -48,7 +52,7 @@ export default async (req, res) => {
     border_color,
     rank_icon,
     show,
-  } = req.query;
+  } = firstQueryValues(req.query);
   res.setHeader("Content-Type", "image/svg+xml");
 
   const access = guardAccess({

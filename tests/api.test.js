@@ -127,12 +127,73 @@ describe("Test /api/", () => {
     );
   });
 
+  it("should not reflect markup from query params into the SVG", async () => {
+    const payload = '"/><script>alert(1)</script>';
+    for (const data of [data_stats, error]) {
+      const { req, res } = faker(
+        {
+          bg_color: `${payload},fff,000`,
+          border_radius: payload,
+          custom_title: payload,
+        },
+        data,
+      );
+
+      await api(req, res);
+
+      // @ts-ignore
+      expect(res.send.mock.calls[0][0]).not.toContain("<script");
+    }
+  });
+
+  it("should render the card for an unknown theme and repeated params", async () => {
+    const { req, res } = faker(
+      {
+        theme: "not-a-theme",
+        title_color: ["f00", "0f0"],
+        locale: ["en", "de"],
+      },
+      data_stats,
+    );
+
+    await api(req, res);
+
+    expect(res.send).toHaveBeenCalledWith(
+      renderStatsCard(stats, {
+        theme: "not-a-theme",
+        title_color: "f00",
+        locale: "en",
+      }),
+    );
+  });
+
   it("should render error card on error", async () => {
     const { req, res } = faker({}, error);
 
     await api(req, res);
 
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
+    expect(res.send).toHaveBeenCalledWith(
+      renderError({
+        message: error.errors[0].message,
+        secondaryMessage:
+          "Make sure the provided username is not an organization",
+      }),
+    );
+  });
+
+  it("should render the normal error card for a gradient on a non-background colour", async () => {
+    const { req, res } = faker(
+      {
+        title_color: "90,fff,000",
+        text_color: "90,fff,000",
+        border_color: "90,fff,000",
+      },
+      error,
+    );
+
+    await api(req, res);
+
     expect(res.send).toHaveBeenCalledWith(
       renderError({
         message: error.errors[0].message,

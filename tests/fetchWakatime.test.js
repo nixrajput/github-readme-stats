@@ -123,6 +123,47 @@ describe("WakaTime fetcher", () => {
     );
   });
 
+  it("should fetch from an allowed api_domain", async () => {
+    mock
+      .onGet(
+        "https://wakapi.dev/api/v1/users/anuraghazra/stats?is_including_today=true",
+      )
+      .reply(200, wakaTimeData);
+
+    const stats = await fetchWakatimeStats({
+      username: "anuraghazra",
+      api_domain: "wakapi.dev/",
+    });
+    expect(stats).toStrictEqual(wakaTimeData.data);
+  });
+
+  it("should not send a request to a host outside the allowlist", async () => {
+    mock.onAny().reply(200, wakaTimeData);
+
+    for (const api_domain of [
+      "169.254.169.254",
+      "evil.example/x?",
+      "wakatime.com.evil.example",
+      "wakatime.com/../..",
+    ]) {
+      await expect(
+        fetchWakatimeStats({ username: "anuraghazra", api_domain }),
+      ).rejects.toThrow("Unsupported api_domain");
+    }
+    expect(mock.history.get).toHaveLength(0);
+  });
+
+  it("should reject a username that changes the request path", async () => {
+    mock.onAny().reply(200, wakaTimeData);
+
+    for (const username of ["..", "../../x", "a/b", "a?b", "a#b", ".x"]) {
+      await expect(fetchWakatimeStats({ username })).rejects.toThrow(
+        "Invalid WakaTime username.",
+      );
+    }
+    expect(mock.history.get).toHaveLength(0);
+  });
+
   it("should throw error if username is not found", async () => {
     mock.onGet(/\/https:\/\/wakatime\.com\/api/).reply(404, wakaTimeData);
 

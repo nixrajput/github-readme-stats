@@ -211,7 +211,7 @@ describe("Test /api/pin", () => {
       renderError({
         message:
           'Missing params "username", "repo" make sure you pass the parameters in URL',
-        secondaryMessage: "/api/pin?username=USERNAME&amp;repo=REPO_NAME",
+        secondaryMessage: "/api/pin?username=USERNAME&repo=REPO_NAME",
         renderOptions: { show_repo_link: false },
       }),
     );

@@ -73,4 +73,40 @@ describe("Test color.js", () => {
       borderColor: "#fff",
     });
   });
+
+  it("getCardColors: should reject a gradient whose angle is not a number", () => {
+    const { bgColor } = getCardColors({
+      bg_color: '"/><script>alert(1)</script>,fff,000',
+      theme: "default",
+    });
+    expect(bgColor).toBe("#fffefe");
+    expect(
+      getCardColors({ bg_color: "-45.5,fff,000", theme: "default" }).bgColor,
+    ).toStrictEqual(["-45.5", "fff", "000"]);
+  });
+
+  it("getCardColors: should fall back to the default theme for an unknown theme", () => {
+    const defaults = getCardColors({ theme: "default" });
+    for (const theme of ["not-a-theme", "__proto__", "constructor"]) {
+      expect(getCardColors({ theme })).toStrictEqual(defaults);
+    }
+  });
+
+  it("getCardColors: should accept a gradient only for the background", () => {
+    const gradient = "90,fff,000";
+    const colors = getCardColors({
+      title_color: gradient,
+      text_color: gradient,
+      icon_color: gradient,
+      ring_color: gradient,
+      border_color: gradient,
+      bg_color: gradient,
+      theme: "default",
+    });
+    const defaults = getCardColors({ theme: "default" });
+    expect(colors).toStrictEqual({
+      ...defaults,
+      bgColor: ["90", "fff", "000"],
+    });
+  });
 });

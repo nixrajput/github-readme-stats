@@ -10,6 +10,24 @@ describe("Test Render WakaTime Card", () => {
     expect(card).toMatchSnapshot();
   });
 
+  it("should escape language names and values from the API", () => {
+    const payload = '"/><script>alert(1)</script>';
+    const languages = wakaTimeData.data.languages.map((lang) => ({
+      ...lang,
+      name: payload,
+      text: payload,
+    }));
+    for (const layout of [undefined, "compact"]) {
+      const card = renderWakatimeCard(
+        { ...wakaTimeData.data, languages },
+        // @ts-ignore
+        { layout },
+      );
+      expect(card).not.toContain("<script");
+      expect(card).not.toContain('"/>');
+    }
+  });
+
   it("should render correctly with compact layout", () => {
     const card = renderWakatimeCard(wakaTimeData.data, { layout: "compact" });
 

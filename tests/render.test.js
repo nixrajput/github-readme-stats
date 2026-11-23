@@ -24,4 +24,13 @@ describe("Test render.js", () => {
       queryByTestId(document.body, "message")?.children[1],
     ).toHaveTextContent(/Secondary Message/gim);
   });
+
+  it("should escape the secondary message", () => {
+    const svg = renderError({
+      message: "Something went wrong",
+      secondaryMessage: "<script>alert(1)</script>",
+    });
+    expect(svg).not.toContain("<script>");
+    expect(svg).toContain("&#60;script&#62;alert(1)&#60;/script&#62;");
+  });
 });

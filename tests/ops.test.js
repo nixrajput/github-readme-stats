@@ -2,6 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import {
   parseBoolean,
   parseArray,
+  firstQueryValues,
   clampValue,
   lowercaseTrim,
   chunkArray,
@@ -34,6 +35,14 @@ describe("Test ops.js", () => {
     expect(parseArray("")).toEqual([]);
     // @ts-ignore
     expect(parseArray(undefined)).toEqual([]);
+  });
+
+  it("should keep the first value of a repeated query parameter", () => {
+    expect(firstQueryValues({ a: ["1", "2"], b: "3", c: undefined })).toEqual({
+      a: "1",
+      b: "3",
+      c: undefined,
+    });
   });
 
   it("should test clampValue", () => {

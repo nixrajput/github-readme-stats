@@ -23,6 +23,7 @@ const isValidHexColor = (hexColor) => {
 const isValidGradient = (colors) => {
   return (
     colors.length > 2 &&
+    /^-?\d+(\.\d+)?$/.test(colors[0]) &&
     colors.slice(1).every((color) => isValidHexColor(color))
   );
 };
@@ -32,13 +33,14 @@ const isValidGradient = (colors) => {
  *
  * @param {string} color The color to parse.
  * @param {string | string[]} fallbackColor The fallback color.
+ * @param {boolean=} allowGradient Whether a gradient is accepted (background only).
  * @returns {string | string[]} The gradient or color.
  */
-const fallbackColor = (color, fallbackColor) => {
+const fallbackColor = (color, fallbackColor, allowGradient = false) => {
   let gradient = null;
 
   let colors = color ? color.split(",") : [];
-  if (colors.length > 1 && isValidGradient(colors)) {
+  if (allowGradient && colors.length > 1 && isValidGradient(colors)) {
     gradient = colors;
   }
 
@@ -83,10 +85,10 @@ const getCardColors = ({
   theme,
 }) => {
   const defaultTheme = themes["default"];
-  const isThemeProvided = theme !== null && theme !== undefined;
-
   // @ts-ignore
-  const selectedTheme = isThemeProvided ? themes[theme] : defaultTheme;
+  const selectedTheme = Object.hasOwn(themes, theme)
+    ? themes[theme]
+    : defaultTheme;
 
   const defaultBorderColor =
     "border_color" in selectedTheme
@@ -119,6 +121,7 @@ const getCardColors = ({
   const bgColor = fallbackColor(
     bg_color || selectedTheme.bg_color,
     "#" + defaultTheme.bg_color,
+    true,
   );
 
   const borderColor = fallbackColor(

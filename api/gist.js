@@ -15,7 +15,7 @@ import {
   MissingParamError,
   retrieveSecondaryMessage,
 } from "../src/common/error.js";
-import { parseBoolean } from "../src/common/ops.js";
+import { firstQueryValues, parseBoolean } from "../src/common/ops.js";
 
 // @ts-ignore
 export default async (req, res) => {
@@ -32,7 +32,7 @@ export default async (req, res) => {
     border_color,
     show_owner,
     hide_border,
-  } = req.query;
+  } = firstQueryValues(req.query);
 
   res.setHeader("Content-Type", "image/svg+xml");
 
