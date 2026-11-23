@@ -91,4 +91,22 @@ describe("Test color.js", () => {
       expect(getCardColors({ theme })).toStrictEqual(defaults);
     }
   });
+
+  it("getCardColors: should accept a gradient only for the background", () => {
+    const gradient = "90,fff,000";
+    const colors = getCardColors({
+      title_color: gradient,
+      text_color: gradient,
+      icon_color: gradient,
+      ring_color: gradient,
+      border_color: gradient,
+      bg_color: gradient,
+      theme: "default",
+    });
+    const defaults = getCardColors({ theme: "default" });
+    expect(colors).toStrictEqual({
+      ...defaults,
+      bgColor: ["90", "fff", "000"],
+    });
+  });
 });

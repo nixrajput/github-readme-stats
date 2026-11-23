@@ -182,6 +182,27 @@ describe("Test /api/", () => {
     );
   });
 
+  it("should render the normal error card for a gradient on a non-background colour", async () => {
+    const { req, res } = faker(
+      {
+        title_color: "90,fff,000",
+        text_color: "90,fff,000",
+        border_color: "90,fff,000",
+      },
+      error,
+    );
+
+    await api(req, res);
+
+    expect(res.send).toHaveBeenCalledWith(
+      renderError({
+        message: error.errors[0].message,
+        secondaryMessage:
+          "Make sure the provided username is not an organization",
+      }),
+    );
+  });
+
   it("should render error card in same theme as requested card", async () => {
     const { req, res } = faker({ theme: "merko" }, error);
 

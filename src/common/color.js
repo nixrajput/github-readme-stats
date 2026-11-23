@@ -33,13 +33,14 @@ const isValidGradient = (colors) => {
  *
  * @param {string} color The color to parse.
  * @param {string | string[]} fallbackColor The fallback color.
+ * @param {boolean=} allowGradient Whether a gradient is accepted (background only).
  * @returns {string | string[]} The gradient or color.
  */
-const fallbackColor = (color, fallbackColor) => {
+const fallbackColor = (color, fallbackColor, allowGradient = false) => {
   let gradient = null;
 
   let colors = color ? color.split(",") : [];
-  if (colors.length > 1 && isValidGradient(colors)) {
+  if (allowGradient && colors.length > 1 && isValidGradient(colors)) {
     gradient = colors;
   }
 
@@ -120,6 +121,7 @@ const getCardColors = ({
   const bgColor = fallbackColor(
     bg_color || selectedTheme.bg_color,
     "#" + defaultTheme.bg_color,
+    true,
   );
 
   const borderColor = fallbackColor(
