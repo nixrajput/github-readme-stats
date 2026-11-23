@@ -3,6 +3,7 @@
 import { Card } from "../common/Card.js";
 import { getCardColors } from "../common/color.js";
 import { formatBytes } from "../common/fmt.js";
+import { encodeHTML } from "../common/html.js";
 import { I18n } from "../common/I18n.js";
 import { chunkArray, clampValue, lowercaseTrim } from "../common/ops.js";
 import {
@@ -805,11 +806,17 @@ const renderTopLanguages = (topLangs, options = {}) => {
     translations: langCardLocales,
   });
 
-  const { langs, totalLanguageSize } = trimTopLanguages(
+  const { langs: trimmedLangs, totalLanguageSize } = trimTopLanguages(
     topLangs,
     langs_count,
     hide,
   );
+  // Every layout writes these GitHub values into SVG text and attributes.
+  const langs = trimmedLangs.map((lang) => ({
+    ...lang,
+    name: encodeHTML(lang.name),
+    color: lang.color && encodeHTML(lang.color),
+  }));
 
   let width = card_width
     ? isNaN(card_width)
