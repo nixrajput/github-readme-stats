@@ -11,23 +11,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: read
-  checks: read
-  contents: write
-  deployments: read
-  issues: read
-  discussions: read
-  packages: read
-  pages: read
-  pull-requests: read
-  repository-projects: read
-  security-events: read
-  statuses: read
+  contents: read
 
 jobs:
   generateThemeDoc:
     runs-on: ubuntu-latest
     name: Generate theme doc
+    permissions:
+      contents: write
     strategy:
       matrix:
         node-version: [22.x]
@@ -36,14 +27,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
       # Fix the unsafe repo error which was introduced by the CVE-2022-24765 git patches.
       - name: Fix unsafe repo error
-        run: git config --global --add safe.directory ${{ github.workspace }}
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: npm install, generate readme
         run: |
@@ -53,7 +44,7 @@ jobs:
           CI: true
 
       - name: Run Script
-        uses: skx/github-action-tester@e29768ff4ff67be9d1fdbccd8836ab83233bebb1 # v0.10.0
+        uses: skx/github-action-tester@e29768ff4ff67be9d1fdbccd8836ab83233bebb1 # release-0.10
         with:
           script: ./scripts/push-theme-readme.sh
         env:
