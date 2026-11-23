@@ -66,7 +66,7 @@ describe("test renderGistCard", () => {
 
     expect(
       document.getElementsByClassName("description")[0].children[1].textContent,
-    ).toBe("English-language pangram—a sentence that contains all");
+    ).toBe("English-language pangram\u2014a sentence that contains all of");
   });
 
   it("should not trim description if it is short", () => {
@@ -234,6 +234,23 @@ describe("test renderGistCard", () => {
     });
     expect(document.getElementsByClassName("description")[0]).toHaveTextContent(
       "No description provided",
+    );
+  });
+
+  it("should escape the language from the API", () => {
+    const payload = '"/><script>alert(1)</script>';
+    const card = renderGistCard({ ...data, language: payload });
+    expect(card).not.toContain("<script");
+    expect(card).toContain("&#34;/&#62;&#60;script&#62;");
+  });
+
+  it("should escape the description only once", () => {
+    document.body.innerHTML = renderGistCard({
+      ...data,
+      description: "Tom & Jerry <3",
+    });
+    expect(document.getElementsByClassName("description")[0]).toHaveTextContent(
+      "Tom & Jerry <3",
     );
   });
 });
