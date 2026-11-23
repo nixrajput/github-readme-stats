@@ -7,4 +7,8 @@ describe("Test html.js", () => {
       "&#60;html&#62;hello world&#60;,.#4^&#38;^@%!))",
     );
   });
+
+  it("should encode quotes so values cannot leave an attribute", () => {
+    expect(encodeHTML(`a" onload='x'`)).toBe("a&#34; onload=&#39;x&#39;");
+  });
 });

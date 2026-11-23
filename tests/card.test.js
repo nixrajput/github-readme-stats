@@ -18,6 +18,24 @@ describe("Card", () => {
     );
   });
 
+  it("should only render a numeric border radius", () => {
+    document.body.innerHTML = new Card({
+      // @ts-ignore
+      border_radius: '"/><script>alert(1)</script>',
+    }).render(``);
+    expect(queryByTestId(document.body, "card-bg")).toHaveAttribute(
+      "rx",
+      "4.5",
+    );
+    expect(document.querySelector("script")).toBeNull();
+
+    document.body.innerHTML = new Card({
+      // @ts-ignore
+      border_radius: "10",
+    }).render(``);
+    expect(queryByTestId(document.body, "card-bg")).toHaveAttribute("rx", "10");
+  });
+
   it("should not hide border", () => {
     const card = new Card({});
     card.setHideBorder(false);

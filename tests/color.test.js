@@ -73,4 +73,15 @@ describe("Test color.js", () => {
       borderColor: "#fff",
     });
   });
+
+  it("getCardColors: should reject a gradient whose angle is not a number", () => {
+    const { bgColor } = getCardColors({
+      bg_color: '"/><script>alert(1)</script>,fff,000',
+      theme: "default",
+    });
+    expect(bgColor).toBe("#fffefe");
+    expect(
+      getCardColors({ bg_color: "-45.5,fff,000", theme: "default" }).bgColor,
+    ).toStrictEqual(["-45.5", "fff", "000"]);
+  });
 });

@@ -23,6 +23,7 @@ const isValidHexColor = (hexColor) => {
 const isValidGradient = (colors) => {
   return (
     colors.length > 2 &&
+    /^-?\d+(\.\d+)?$/.test(colors[0]) &&
     colors.slice(1).every((color) => isValidHexColor(color))
   );
 };

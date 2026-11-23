@@ -127,6 +127,25 @@ describe("Test /api/", () => {
     );
   });
 
+  it("should not reflect markup from query params into the SVG", async () => {
+    const payload = '"/><script>alert(1)</script>';
+    for (const data of [data_stats, error]) {
+      const { req, res } = faker(
+        {
+          bg_color: `${payload},fff,000`,
+          border_radius: payload,
+          custom_title: payload,
+        },
+        data,
+      );
+
+      await api(req, res);
+
+      // @ts-ignore
+      expect(res.send.mock.calls[0][0]).not.toContain("<script");
+    }
+  });
+
   it("should render error card on error", async () => {
     const { req, res } = faker({}, error);
 

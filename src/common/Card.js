@@ -36,7 +36,9 @@ class Card {
     this.hideBorder = false;
     this.hideTitle = false;
 
-    this.border_radius = border_radius;
+    // border_radius arrives raw from the query string and lands in an SVG attribute.
+    const radius = parseFloat(String(border_radius));
+    this.border_radius = Number.isNaN(radius) ? 4.5 : radius;
 
     // returns theme based colors with proper overrides and defaults
     this.colors = colors;
