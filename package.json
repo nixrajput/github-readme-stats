@@ -72,7 +72,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "engines": {
-    "node": ">=22"
+    "node": "26.x"
   },
   "overrides": {
     "glob": "14.0.2",
